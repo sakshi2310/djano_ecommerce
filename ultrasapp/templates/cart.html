@@ -1,0 +1,386 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Ultras - Clothing Store</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'icomoon/icomoon.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/vendor.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/css2.css' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- script
+    ================================================== -->
+  <script src="{% static 'js/modernizr.js' %}"></script>
+</head>
+
+<body>
+  {% include 'header.html' %}
+
+  <section class="site-banner padding-small bg-light-grey">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="breadcrumbs">
+            <span class="item">
+              <a href="/index">Home /</a>
+            </span>
+            <span class="item">
+              <a href="/shop">Shop /</a>
+            </span>
+            <span class="item">Cart</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="shopify-cart padding-large">
+    <div class="container">
+      <div class="cart-table">
+        <div class="cart-header border-bottom ">
+          <div class="row d-flex">
+            <h3 class="cart-title col-lg-5">Product</h3>
+            <h3 class="cart-title col-lg-2">Quantity</h3>
+            <h3 class="cart-title col-lg-2">amount</h3>
+          </div>
+        </div>
+        {% for row in cartdata %}
+        <div class="cart-item border-bottom padding-small">
+          <div class="row">
+            <div class="col-lg-5 col-md-6">
+              <div class="row cart-info d-flex flex-wrap">
+                <div class="col-lg-5">
+                  <div class="card-image">
+                    <img src="/media/{{row.prodcut_id.Product_image}}" alt="cloth" class="img-fluid">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="card-detail">
+                    <h3 class="card-title">
+                      <a href="/#">{{row.prodcut_id.title}}</a>
+                    </h3>
+                    <div class="card-price">
+                      <span class="money text-primary" data-currency-usd="$1200.00">Rs.{{row.price}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+              <div class="row d-flex">
+                <div class="col-lg-6">
+                  <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="prodcut_id" value="{{row.prodcut_id.id}}">
+                    <div class="qty-number d-flex align-items-center justify-content-start">
+
+                      <input type="text" name="qty" class="spin-number-output" value="{{row.qty}}" min="1" max="100">
+
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+                  <div class="total-price">
+                    <span class="money text-primary">Rs.{{row.amount}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-2">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="cart-remove">
+                    <a href="/cancle_cart/{{row.prodcut_id.id}}"><i class="icon icon-close"></i></a>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="cart-remove">
+                    <button type="submit" class="btn btn-small btn-dark" name="save" value="save">save</button>
+                  </div>
+                </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="cart-totals">
+        <h2 class="section-title">Cart Totals</h2>
+        <div class="total-price">
+          <table cellspacing="0" class="table">
+            <tbody>
+
+              <tr class="order-total">
+                <th>Total</th>
+                <td data-title="Total">
+                  <span class="price-amount amount text-primary">
+                    <bdi>
+                      <span class="price-currency-symbol">$</span>{{totalamt}}
+                    </bdi>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="button-wrap">
+         
+
+          <a href="/cart"><button class="btn btn-dark btn-medium">Update Cart</button></a>
+          <a href="/shop"><button class="btn btn-dark btn-medium">Continue Shopping</button></a>
+          <a href="/checkout"><button class="btn btn-dark btn-medium">Proceed to checkout</button></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="subscribe" class="bg-light-grey padding-large">
+    <div class="container">
+      <div class="row">
+        <div class="block-text col-md-6">
+          <div class="section-header">
+            <h2 class="section-title">Get 25% off Discount Coupons</h2>
+          </div>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dictumst amet, metus, sit massa posuere maecenas.
+            At tellus ut nunc amet vel egestas.</p>
+        </div>
+        <div class="subscribe-content col-md-6">
+          <form id="form" class="d-flex justify-content-between">
+            <input type="text" name="email" placeholder="Enter your email addresss here">
+            <button class="btn btn-dark">Subscribe Now</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="instagram" class="padding-large">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Follow our instagram</h2>
+      </div>
+      <p>Our official Instagram account <a href="/#">@ultras</a> or <a href="/#">#ultras_clothing</a>
+      </p>
+      <div class="row d-flex flex-wrap justify-content-between">
+        <div class="col-lg-2 col-md-4 col-sm-6">
+          <figure class="zoom-effect">
+            <img src="{% static 'images/insta-image1.jpg' %}" alt="instagram" class="insta-image">
+            <i class="icon icon-instagram"></i>
+          </figure>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6">
+          <figure class="zoom-effect">
+            <img src="{% static 'images/insta-image2.jpg' %}" alt="instagram" class="insta-image">
+            <i class="icon icon-instagram"></i>
+          </figure>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6">
+          <figure class="zoom-effect">
+            <img src="{% static 'images/insta-image3.jpg' %}" alt="instagram" class="insta-image">
+            <i class="icon icon-instagram"></i>
+          </figure>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6">
+          <figure class="zoom-effect">
+            <img src="{% static 'images/insta-image4.jpg' %}" alt="instagram" class="insta-image">
+            <i class="icon icon-instagram"></i>
+          </figure>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6">
+          <figure class="zoom-effect">
+            <img src="{% static 'images/insta-image5.jpg' %}" alt="instagram" class="insta-image">
+            <i class="icon icon-instagram"></i>
+          </figure>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6">
+          <figure class="zoom-effect">
+            <img src="{% static 'images/insta-image6.jpg' %}" alt="instagram" class="insta-image">
+            <i class="icon icon-instagram"></i>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="shipping-information">
+    <hr>
+    <div class="container">
+      <div class="row d-flex flex-wrap align-items-center justify-content-between">
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-truck"></i>
+            <h4 class="block-title">
+              <strong>Free shipping</strong> Over $200
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-return"></i>
+            <h4 class="block-title">
+              <strong>Money back</strong> Return within 7 days
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-tags1"></i>
+            <h4 class="block-title">
+              <strong>Buy 4 get 5th</strong> 50% off
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-help_outline"></i>
+            <h4 class="block-title">
+              <strong>Any questions?</strong> experts are ready
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </section>
+
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-menu-list">
+        <div class="row d-flex flex-wrap justify-content-between">
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="footer-menu">
+              <h5 class="widget-title">Ultras</h5>
+              <ul class="menu-list list-unstyled">
+                <li class="menu-item">
+                  <a href="/about">About us</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/#">Conditions </a>
+                </li>
+                <li class="menu-item">
+                  <a href="/blog">Our Journals</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/#">Careers</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/#">Affiliate Programme</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/#">Ultras Press</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="footer-menu">
+              <h5 class="widget-title">Customer Service</h5>
+              <ul class="menu-list list-unstyled">
+                <li class="menu-item">
+                  <a href="/faqs">FAQ</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/contact">Contact</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/#">Privacy Policy</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/#">Returns & Refunds</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/#">Cookie Guidelines</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/#">Delivery Information</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="footer-menu">
+              <h5 class="widget-title">Contact Us</h5>
+              <p>Do you have any questions or suggestions? <a href="/#" class="email">ourservices@ultras.com</a>
+              </p>
+              <p>Do you need assistance? Give us a call. <br>
+                <strong>+57 444 11 00 35</strong>
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="footer-menu">
+              <h5 class="widget-title">Forever 2018</h5>
+              <p>Cras mattis sit ornare in metus eu amet adipiscing enim. Ullamcorper in orci, ultrices integer eget
+                arcu. Consectetur leo dignissim lacus, lacus sagittis dictumst.</p>
+              <div class="social-links">
+                <ul class="d-flex list-unstyled">
+                  <li>
+                    <a href="/#">
+                      <i class="icon icon-facebook"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i class="icon icon-twitter"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i class="icon icon-youtube-play"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i class="icon icon-behance-square"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </footer>
+
+  <div id="footer-bottom">
+    <div class="container">
+      <div class="d-flex align-items-center flex-wrap justify-content-between">
+        <div class="copyright">
+          <p>Freebies by <a href="https://templatesjungle.com/">Templates Jungle</a>
+          </p>
+        </div>
+        <div class="payment-method">
+          <p>Payment options :</p>
+          <div class="card-wrap">
+            <img src="{% static 'images/visa-icon.jpg' %}" alt="visa">
+            <img src="{% static 'images/mastercard.png' %}" alt="mastercard">
+            <img src="{% static 'images/american-express.jpg' %}" alt="american-express">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+  <script src="{% static 'js/plugins.js' %}"></script>
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>

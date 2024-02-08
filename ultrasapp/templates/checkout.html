@@ -1,0 +1,396 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Ultras - Clothing Store</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'icomoon/icomoon.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/vendor.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/css2.css' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- script
+    ================================================== -->
+  <script src="{% static 'js/modernizr.js' %}"></script>
+</head>
+
+<body>
+  {% include 'header.html' %}
+
+  <section class="site-banner padding-small bg-light-grey">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="breadcrumbs">
+            <span class="item">
+              <a href="/index">Home /</a>
+            </span>
+            <span class="item">
+              <a href="/shop">Shop /</a>
+            </span>
+            <span class="item">Checkout</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="shopify-cart checkout-wrap padding-large">
+    <div class="container">
+      <form  method="post" class="form-group">
+        {% csrf_token%}
+        <div class="row d-flex flex-wrap">
+          <div class="col-lg-6">
+            <h2 class="section-title">Billing Details</h2>
+            <div class="billing-details">
+              <label for="fname">First Name*</label>
+              <input type="text" id="fname" name="{{billingformobj.first_name.name}}" class="form-control" value="{{billingformobj.first_name.value}}">
+              <label for="lname">Last Name*</label>
+              <input type="text" id="lname" name="{{billingformobj.last_name.name}}" class="form-control" value="{{billingformobj.last_name.value}}">
+              <label for="cname">Company Name(optional)*</label>
+              <input type="text" id="cname" name="{{billingformobj.company_name.name}}" class="form-control">
+              <!-- <label for="cname">Country / Region*</label> -->
+              <!-- <select class="form-select form-control" aria-label="Default select example">
+                <option selected="" hidden="">United States</option>
+                <option value="1">UK</option>
+                <option value="2">Australia</option>
+                <option value="3">Canada</option>
+              </select> -->
+              <label for="address">Street Address*</label>
+              <input type="text" id="adr" name="{{billingformobj.street_address.name}}" placeholder="House number and street name"
+                class="form-control">
+              <label for="city">Town / City *</label>
+              <input type="text" id="city" name="{{billingformobj.city.name}}" class="form-control">
+              <label for="state">State *</label>
+              <select class="form-select form-control" aria-label="Default select example" name="{{billingformobj.state.name}}">
+                <option value="Gujatat">Gujatat</option>
+                <option value="Navsari">Navsari</option>
+                <option value="vapi">vapi</option>
+                <option value="Gandhinager">Gandhinager</option>
+                <option value="Amhadabad">Amhadabad</option>
+                <option value="Amreli">Amreli</option>
+              </select>
+              <label for="zip">Zip Code *</label>
+              <input type="text" id="zip" name="{{billingformobj.zip_code.name}}" class="form-control">
+              <label for="email">Phone *</label>
+              <input type="text" id="phone" name="{{billingformobj.phone.name}}" class="form-control">
+              <label for="email">Email address *</label>
+              <input type="text" id="email" name="{{billingformobj.email_address.name}}" class="form-control">
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <h2 class="section-title">Additional Information</h2>
+            <div class="billing-details">
+              <label for="fname">Order notes (optional)</label>
+              <textarea class="form-control"
+                placeholder="Notes about your order. Like special notes for delivery." name="{{billingformobj.order_notes.name}}"></textarea >
+            </div>
+            <div class="your-order">
+              <h2 class="section-title">Cart Totals</h2>
+              <div class="total-price">
+                <table cellspacing="0" class="table">
+                  <tbody>
+                    <tr class="subtotal">
+                      <th>total</th>
+                      <td data-title="Subtotal">
+                        <span class="price-amount amount text-primary">
+                          <bdi>
+                            <span class="price-currency-symbol">Rs.</span>{{totalamt}}</bdi>
+                        </span>
+                      </td>
+                    </tr>
+                    
+                  </tbody>
+                </table>
+                <div class="list-group mt-5 mb-3">
+                  <label class="list-group-item d-flex">
+                    <input class="form-check-input flex-shrink-0" type="radio" name="{{billingformobj.payment.name}}"
+                      id="listGroupRadios1" value="Direct_bank_transfer" checked>
+                    <div>
+                      <strong>Direct bank transfer</strong>
+                      <p>Make your payment directly into our bank account. Please use your Order ID. Your order will
+                        shipped after funds have cleared in our account.</p>
+                    </div>
+                  </label>
+                  <label class="list-group-item d-flex">
+                    <input class="form-check-input flex-shrink-0" type="radio" name="{{billingformobj.payment.name}}"
+                      id="listGroupRadios2" value="Check_payments">
+                    <div>
+                      <strong>Check payments</strong>
+                      <p>Please send a check to Store Name, Store Street, Store Town, Store State / County, Store
+                        Postcode.</p>
+                    </div>
+                  </label>
+                  <label class="list-group-item d-flex">
+                    <input class="form-check-input flex-shrink-0" type="radio" name="{{billingformobj.payment.name}}"
+                      id="listGroupRadios3" value="Cash_on_delivery">
+                    <div>
+                      <strong>Cash on delivery</strong>
+                      <p>Pay with cash upon delivery.</p>
+                    </div>
+                  </label>
+                  <label class="list-group-item d-flex">
+                    <input class="form-check-input flex-shrink-0" type="radio" name="{{billingformobj.payment.name}}"
+                      id="listGroupRadios3" value="Paypal">
+                    <div>
+                      <strong>Paypal</strong>
+                      <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
+                    </div>
+                  </label>
+                </div>
+                <button type="submit" name="save" value="save" class="btn btn-dark btn-full btn-medium">Place an order</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section id="subscribe" class="bg-light-grey padding-large">
+    <div class="container">
+      <div class="row">
+        <div class="block-text col-md-6">
+          <div class="section-header">
+            <h2 class="section-title">Get 25% off Discount Coupons</h2>
+          </div>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dictumst amet, metus, sit massa posuere maecenas.
+            At tellus ut nunc amet vel egestas.</p>
+        </div>
+        <div class="subscribe-content col-md-6">
+          <form id="form" class="d-flex justify-content-between">
+            <input type="text" name="email" placeholder="Enter your email addresss here">
+            <button class="btn btn-dark">Subscribe Now</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="instagram" class="padding-large">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Follow our instagram</h2>
+      </div>
+      <p>Our official Instagram account <a href="/#">@ultras</a> or <a href="/#">#ultras_clothing</a>
+      </p>
+      <div class="row d-flex flex-wrap justify-content-between">
+        <div class="col-lg-2 col-md-4 col-sm-6">
+          <figure class="zoom-effect">
+            <img src="{% static 'images/insta-image1.jpg' %}" alt="instagram" class="insta-image">
+            <i class="icon icon-instagram"></i>
+          </figure>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6">
+          <figure class="zoom-effect">
+            <img src="{% static 'images/insta-image2.jpg' %}" alt="instagram" class="insta-image">
+            <i class="icon icon-instagram"></i>
+          </figure>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6">
+          <figure class="zoom-effect">
+            <img src="{% static 'images/insta-image3.jpg' %}" alt="instagram" class="insta-image">
+            <i class="icon icon-instagram"></i>
+          </figure>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6">
+          <figure class="zoom-effect">
+            <img src="{% static 'images/insta-image4.jpg' %}" alt="instagram" class="insta-image">
+            <i class="icon icon-instagram"></i>
+          </figure>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6">
+          <figure class="zoom-effect">
+            <img src="{% static 'images/insta-image5.jpg' %}" alt="instagram" class="insta-image">
+            <i class="icon icon-instagram"></i>
+          </figure>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6">
+          <figure class="zoom-effect">
+            <img src="{% static 'images/insta-image6.jpg' %}" alt="instagram" class="insta-image">
+            <i class="icon icon-instagram"></i>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="shipping-information">
+    <hr>
+    <div class="container">
+      <div class="row d-flex flex-wrap align-items-center justify-content-between">
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-truck"></i>
+            <h4 class="block-title">
+              <strong>Free shipping</strong> Over $200
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-return"></i>
+            <h4 class="block-title">
+              <strong>Money back</strong> Return within 7 days
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-tags1"></i>
+            <h4 class="block-title">
+              <strong>Buy 4 get 5th</strong> 50% off
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-help_outline"></i>
+            <h4 class="block-title">
+              <strong>Any questions?</strong> experts are ready
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </section>
+
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-menu-list">
+        <div class="row d-flex flex-wrap justify-content-between">
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="footer-menu">
+              <h5 class="widget-title">Ultras</h5>
+              <ul class="menu-list list-unstyled">
+                <li class="menu-item">
+                  <a href="/about">About us</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/#">Conditions </a>
+                </li>
+                <li class="menu-item">
+                  <a href="/blog">Our Journals</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/#">Careers</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/#">Affiliate Programme</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/#">Ultras Press</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="footer-menu">
+              <h5 class="widget-title">Customer Service</h5>
+              <ul class="menu-list list-unstyled">
+                <li class="menu-item">
+                  <a href="/faqs">FAQ</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/contact">Contact</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/#">Privacy Policy</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/#">Returns & Refunds</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/#">Cookie Guidelines</a>
+                </li>
+                <li class="menu-item">
+                  <a href="/#">Delivery Information</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="footer-menu">
+              <h5 class="widget-title">Contact Us</h5>
+              <p>Do you have any questions or suggestions? <a href="/#" class="email">ourservices@ultras.com</a>
+              </p>
+              <p>Do you need assistance? Give us a call. <br>
+                <strong>+57 444 11 00 35</strong>
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="footer-menu">
+              <h5 class="widget-title">Forever 2018</h5>
+              <p>Cras mattis sit ornare in metus eu amet adipiscing enim. Ullamcorper in orci, ultrices integer eget
+                arcu. Consectetur leo dignissim lacus, lacus sagittis dictumst.</p>
+              <div class="social-links">
+                <ul class="d-flex list-unstyled">
+                  <li>
+                    <a href="/#">
+                      <i class="icon icon-facebook"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i class="icon icon-twitter"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i class="icon icon-youtube-play"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i class="icon icon-behance-square"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </footer>
+
+  <div id="footer-bottom">
+    <div class="container">
+      <div class="d-flex align-items-center flex-wrap justify-content-between">
+        <div class="copyright">
+          <p>Freebies by <a href="https://templatesjungle.com/">Templates Jungle</a>
+          </p>
+        </div>
+        <div class="payment-method">
+          <p>Payment options :</p>
+          <div class="card-wrap">
+            <img src="{% static 'images/visa-icon.jpg' %}" alt="visa">
+            <img src="{% static 'images/mastercard.png' %}" alt="mastercard">
+            <img src="{% static 'images/american-express.jpg' %}" alt="american-express">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+  <script src="{% static 'js/plugins.js' %}"></script>
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>

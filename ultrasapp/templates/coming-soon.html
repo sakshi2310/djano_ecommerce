@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<title>Ultras - Clothing Store</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="author" content="">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'icomoon/icomoon.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/css2.css' %}">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	
+	<!-- script
+	  ================================================== -->
+	<script src="{% static 'js/modernizr.js' %}"></script>
+  </head>
+
+<body>
+
+	<div class="preloader-wrapper">
+		<div class="preloader">
+		</div>
+	</div>
+
+	<div id="body-wrap" class="coming_soon margin-medium text-center">
+		<div class="container">
+			<header id="header">
+				<div class="main-logo">
+					<a href="/index">
+						<img src="{% static 'images/main-logo.png' %}" alt="logo">
+					</a>
+				</div>
+			</header>
+
+			<div class="main-content">
+
+				<div class="site-banner">
+					<h1 class="page-title">We are launching soon!</h1>
+				</div>
+
+				<div id="countdown-clock" class="d-flex justify-content-between flex-wrap">
+					<div class="time">
+						<span class="days"></span>
+						<small>Days:</small>
+					</div>
+					<div class="time">
+						<span class="hours"></span>
+						<small>Hours:</small>
+					</div>
+					<div class="time">
+						<span class="minutes"></span>
+						<small>Mins:</small>
+					</div>
+					<div class="time">
+						<span class="seconds"></span>
+						<small>Secs</small>
+					</div>
+				</div>
+
+				<div class="btn-wrap">
+					<a href="/index" class="btn btn-dark btn-medium d-flex align-items-center" tabindex="0">Go back
+						to home<i class="icon icon-arrow-io"></i>
+					</a>
+				</div>
+
+				<div id="subscribe" class="margin-medium">
+					<div class="subscribe-content">
+						<p>Get notified when we launched our website</p>
+						<form id="form" class="d-flex justify-content-between">
+							<input type="text" name="email" placeholder="Enter your email addresss here">
+							<button class="btn btn-dark">Notify me</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		function getTimeRemaining(endtime) {
+			const total = Date.parse(endtime) - Date.parse(new Date());
+			const seconds = Math.floor((total / 1000) % 60);
+			const minutes = Math.floor((total / 1000 / 60) % 60);
+			const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+			const days = Math.floor(total / (1000 * 60 * 60 * 24));
+
+			return {
+				total,
+				days,
+				hours,
+				minutes,
+				seconds
+			};
+		}
+
+		function initializeClock(id, endtime) {
+			const clock = document.getElementById(id);
+			const daysSpan = clock.querySelector('.days');
+			const hoursSpan = clock.querySelector('.hours');
+			const minutesSpan = clock.querySelector('.minutes');
+			const secondsSpan = clock.querySelector('.seconds');
+
+			function updateClock() {
+				const t = getTimeRemaining(endtime);
+
+				daysSpan.innerHTML = t.days;
+				hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+				minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+				secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+				if (t.total <= 0) {
+					clearInterval(timeinterval);
+				}
+			}
+
+			updateClock();
+			const timeinterval = setInterval(updateClock, 1000);
+		}
+
+		const deadline = new Date(Date.parse(new Date()) + 28 * 24 * 60 * 60 * 1000);
+		initializeClock('countdown-clock', deadline);
+	</script>
+
+<script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+<script src="{% static 'js/plugins.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>
